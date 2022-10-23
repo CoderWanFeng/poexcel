@@ -15,7 +15,7 @@ class TestExcel(unittest.TestCase):
                               column=6)
 
     def test_sheet2excel(self):
-        sheet2excel(file_path=r'./test_files/excel/fake2excel.xlsx')
+        sheet2excel(file_path=r'D:\workplace\code\github\poexcel\tests\fake2excel.xlsx',output_path=r'D:\workplace\code\github\poexcel\tests\output_path')
 
     def test_merge2sheet(self):
         merge2sheet(dir_path=r'./test_files/excel/merge2sheet')

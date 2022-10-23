@@ -8,7 +8,7 @@ from pathlib import Path
 from openpyxl import load_workbook
 import warnings
 from tqdm import tqdm
-
+from pathlib import Path
 # 忽略waring警告
 from poexcel.lib import pandas_mem
 from poexcel.lib.excel import SplitExcel
@@ -80,7 +80,7 @@ class MainExcel():
                     file_path_dict[file] = (path / file)
         return file_path_dict
 
-    def sheet2excel(self, file_path):
+    def sheet2excel(self, file_path, output_path: str):
         # 先读取一次文件，获取sheet表的名称
 
         origin_excel = load_workbook(filename=file_path)  # 读取原excel文件
@@ -96,7 +96,7 @@ class MainExcel():
                 sheet = wb[origin_sheet_names[j]]
                 wb.copy_worksheet(sheet)
 
-                new_filename = origin_sheet_names[j] + '.xlsx'  # 新建一个sheet命名的excel文件
+                new_filename = Path(output_path).joinpath(origin_sheet_names[j] + '.xlsx')  # 新建一个sheet命名的excel文件
 
                 for i in tqdm(range(len(origin_sheet_names))):
                     sheet1 = wb[origin_sheet_names[i]]
