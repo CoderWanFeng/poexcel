@@ -15,7 +15,8 @@ class TestExcel(unittest.TestCase):
                               column=6)
 
     def test_sheet2excel(self):
-        sheet2excel(file_path=r'D:\workplace\code\github\poexcel\tests\fake2excel.xlsx',output_path=r'D:\workplace\code\github\poexcel\tests\output_path')
+        sheet2excel(file_path=r'D:\workplace\code\github\poexcel\tests\fake2excel.xlsx',
+                    output_path=r'D:\workplace\code\github\poexcel\tests\output_path')
 
     def test_merge2sheet(self):
         merge2sheet(dir_path=r'./test_files/excel/merge2sheet')
@@ -25,6 +26,10 @@ class TestExcel(unittest.TestCase):
 
     def test_find_excel_data(self):
         find_excel_data(search_key='刘家站垦殖场', target_dir=r'../../contributors/bulabean')
+
+    def test_query4excel(self):
+        # query4excel(query_content='程序员晚枫', query_path=r'D:\test\py310\excel_test')
+        query4excel(query_content='程序员晚枫', query_path=r'D:\test\py310\excel_test\course',output_path=r'D:\test\py310\excel_test\output_path',output_name='晚枫')
 
     # def test_merge2sheet(self):
     #     """

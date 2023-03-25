@@ -12,6 +12,7 @@ from pathlib import Path
 # 忽略waring警告
 from poexcel.lib import pandas_mem
 from poexcel.lib.excel import SplitExcel
+from win32com.client import DispatchEx
 
 warnings.filterwarnings("ignore")
 
@@ -146,3 +147,18 @@ class MainExcel():
 
     def split_excel_by_column(self, filepath, column, worksheet_name):
         SplitExcel.split_excel_by_column(filepath, column, worksheet_name)
+
+    def excel2pdf(self, excel_path, pdf_path):
+        """
+        https://blog.csdn.net/qq_57187936/article/details/125605967
+        """
+        input_excel_path = Path(excel_path).absolute()
+        output_pdf_path = Path(pdf_path).absolute()
+
+        xlApp = DispatchEx("Excel.Application")
+        xlApp.Visible = False
+        xlApp.DisplayAlerts = 0
+        books = xlApp.Workbooks.Open(str(input_excel_path), False)
+        books.ExportAsFixedFormat(0, str(output_pdf_path))
+        books.Close(False)
+        xlApp.Quit()

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-
+from poexcel.core import QueryExcel
 #############################################
 # File Name: excel.py
 # Mail: 1957875073@qq.com
@@ -52,3 +52,10 @@ def find_excel_data(search_key: str, target_dir: str):
 # @except_dec()
 def split_excel_by_column(filepath: str, column: int, worksheet_name: str = None):
     mainExcel.split_excel_by_column(filepath, column, worksheet_name)
+
+
+def excel2pdf(excel_path, pdf_path):
+    mainExcel.excel2pdf(excel_path, pdf_path)
+
+def query4excel(query_content, query_path ,output_path=None, output_name='output_path/query4excel.xlsx'):
+    QueryExcel.query4excel(query_content, query_path,output_path, output_name)
