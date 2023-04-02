@@ -1,20 +1,19 @@
 import search4file
 from faker import Faker
 import pandas as pd
-from alive_progress import alive_bar
 
 import os
 from pathlib import Path
 from openpyxl import load_workbook
-import warnings
+
+from pofile import get_files
+from poprogress import simple_progress
 from tqdm import tqdm
 from pathlib import Path
 # 忽略waring警告
 from poexcel.lib import pandas_mem
 from poexcel.lib.excel import SplitExcel
-from win32com.client import DispatchEx
-
-warnings.filterwarnings("ignore")
+import xlwings as xw
 
 
 class MainExcel():
@@ -28,27 +27,20 @@ class MainExcel():
                 path：输出excel的位置，有默认值
         """
         # 可以选择英语
-        if language.lower() == 'english':
-            language = 'en_US'
-        else:
-            language = 'zh_CN'
-        # 开始造数
+        language = 'en_US' if language.lower() == 'english' else 'zh_CN'
         fake = Faker(language)
         excel_dict = {}
-        with alive_bar(len(columns) * rows) as bar:
-            for column in columns:
-                excel_dict[column] = list()
-                # excel_dict[column] = map(lambda x: eval('fake.{func}()'.format(func=x)), [column] * rows) # 使用map，会报错
-                while len(excel_dict[column]) < rows:
-                    excel_dict[column].append(eval('fake.{func}()'.format(func=column)))
-                    bar()
-            # 用pandas，将模拟数据，写进excel里面
-            writer = pd.ExcelWriter(path)
-            data = pd.DataFrame(excel_dict)
-            data = pandas_mem.reduce_pandas_mem_usage(data)
-            data.to_excel(writer, index=False)
-            # writer.save()
-            writer.close()
+        for column in simple_progress(columns, desc=f'columns'):
+            excel_dict[column] = list()
+            for _ in simple_progress(range(0, rows), desc='rows'):
+                excel_dict[column].append(eval('fake.{func}()'.format(func=column)))
+        # 用pandas，将模拟数据，写进excel里面
+        res_excel_file = pd.ExcelWriter(str(Path(path).absolute()))
+        res_data = pd.DataFrame(excel_dict)
+        res_data = pandas_mem.reduce_pandas_mem_usage(res_data)
+        res_data.to_excel(res_excel_file, index=False)
+        # writer.save()
+        res_excel_file.close()
 
     def merge2excel(self, dir_path, output_file, xlsxSuffix=".xlsx"):
         """
@@ -148,17 +140,21 @@ class MainExcel():
     def split_excel_by_column(self, filepath, column, worksheet_name):
         SplitExcel.split_excel_by_column(filepath, column, worksheet_name)
 
-    def excel2pdf(self, excel_path, pdf_path):
+    def excel2pdf(self, excel_path, pdf_path, sheet_id):
         """
         https://blog.csdn.net/qq_57187936/article/details/125605967
         """
-        input_excel_path = Path(excel_path).absolute()
+        abs_excel_path = str(Path(excel_path).absolute())
+        input_excel_path_list1 = get_files(abs_excel_path, suffix='.xls')
+        input_excel_path_list2 = get_files(abs_excel_path, suffix='.xlsx')
+        input_excel_path_list1.extend(input_excel_path_list2)
         output_pdf_path = Path(pdf_path).absolute()
-
-        xlApp = DispatchEx("Excel.Application")
-        xlApp.Visible = False
-        xlApp.DisplayAlerts = 0
-        books = xlApp.Workbooks.Open(str(input_excel_path), False)
-        books.ExportAsFixedFormat(0, str(output_pdf_path))
-        books.Close(False)
-        xlApp.Quit()
+        for excel_file in input_excel_path_list1:
+            with xw.App() as app:  # 下列来源：https://www.qiniu.com/qfans/qnso-57724345#comments
+                app.visible = False
+                # Initialize new excel workbook
+                book = app.books.open(str(excel_file))
+                sheet = book.sheets[sheet_id]
+                # Construct path for pdf file
+                pdf_path_name = os.path.join(str(output_pdf_path), Path(excel_file).stem + '.pdf')
+                sheet.to_pdf(path=pdf_path_name, show=False)

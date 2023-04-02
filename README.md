@@ -23,7 +23,7 @@ wftools是python自动化办公的小工具的代码合集。
 ### 🍊pip 自动下载&更新
 
 ```
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple poexcel -U
+pip install -i https://mirrors.aliyun.com/pypi/simple/ poexcel -U
 ```
 
 

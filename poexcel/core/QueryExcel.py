@@ -15,7 +15,7 @@ from poprogress import simple_progress
 
 def query4excel(query_content, query_path, output_path, output_name):
 
-    if not output_name.endswith('xlsx') or not output_name.endswith('xls'):
+    if not output_name.endswith('xlsx') and not output_name.endswith('xls'):
         print('output_name必须以.xlsx或者.xls结尾')
         return
     abs_query_path = Path(query_path).absolute()
@@ -59,3 +59,5 @@ def query4excel(query_content, query_path, output_path, output_name):
                     # print()
     # print(res_df)
     res_df.to_excel(str(abs_output_path),index=False)
+    print(f'完成搜索，结果存储在：{str(abs_output_path)}')
+

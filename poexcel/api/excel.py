@@ -54,8 +54,9 @@ def split_excel_by_column(filepath: str, column: int, worksheet_name: str = None
     mainExcel.split_excel_by_column(filepath, column, worksheet_name)
 
 
-def excel2pdf(excel_path, pdf_path):
-    mainExcel.excel2pdf(excel_path, pdf_path)
+def excel2pdf(excel_path, pdf_path, sheet_id: int = 0):
+    mainExcel.excel2pdf(excel_path, pdf_path, sheet_id)
 
-def query4excel(query_content, query_path ,output_path=None, output_name='output_path/query4excel.xlsx'):
-    QueryExcel.query4excel(query_content, query_path,output_path, output_name)
+
+def query4excel(query_content, query_path, output_path=None, output_name='output_path/query4excel.xlsx'):
+    QueryExcel.query4excel(query_content, query_path, output_path, output_name)
