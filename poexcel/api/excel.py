@@ -60,3 +60,7 @@ def excel2pdf(excel_path, pdf_path, sheet_id: int = 0):
 
 def query4excel(query_content, query_path, output_path=None, output_name='output_path/query4excel.xlsx'):
     QueryExcel.query4excel(query_content, query_path, output_path, output_name)
+
+
+def count4page(input_path):
+    mainExcel.count4page(input_path)

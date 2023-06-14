@@ -1,4 +1,5 @@
 import search4file
+import win32com
 from faker import Faker
 import pandas as pd
 
@@ -25,6 +26,7 @@ class MainExcel():
                 rows：多少行，默认是1
                 language：什么语言，可以填english，默认是中文
                 path：输出excel的位置，有默认值
+        @Ref  : 可以fake的数据类型有：https://mp.weixin.qq.com/s/xVwEjXu58WovgSi4ZTtVQw
         """
         # 可以选择英语
         language = 'en_US' if language.lower() == 'english' else 'zh_CN'
@@ -158,3 +160,30 @@ class MainExcel():
                 # Construct path for pdf file
                 pdf_path_name = os.path.join(str(output_pdf_path), Path(excel_file).stem + '.pdf')
                 sheet.to_pdf(path=pdf_path_name, show=False)
+    def count4page(self,input_path):
+        """
+        统计Excel文件打印的页数
+        :author Cai-cy
+        :param input_path:
+        :return:
+        """
+        # 指定文件夹路径
+        # 打开 Excel 应用程序
+        excel = win32com.client.Dispatch("Excel.Application")
+
+        # 遍历文件夹下的所有文件
+        for file_name in os.listdir(input_path):
+            # 判断文件是否是 Excel 文件
+            if file_name.endswith(".xlsx") or file_name.endswith(".xls"):
+                # 打开 Excel 文件
+                file_path = os.path.join(input_path, file_name)
+                workbook = excel.Workbooks.Open(file_path)
+                # 获取 Excel 文件的打印页数
+                page_count = workbook.ActiveSheet.PageSetup.Pages.Count
+                # 输出 Excel 文件的打印页数
+                print(f"{file_name}: {page_count}页")
+                # 关闭 Excel 文件
+                workbook.Close()
+
+        # 关闭 Excel 应用程序
+        excel.Quit()
