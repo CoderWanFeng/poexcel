@@ -32,10 +32,15 @@ class MainExcel():
         language = 'en_US' if language.lower() == 'english' else 'zh_CN'
         fake = Faker(language)
         excel_dict = {}
-        for column in simple_progress(columns, desc=f'columns'):
-            excel_dict[column] = list()
-            for _ in simple_progress(range(0, rows), desc='rows'):
-                excel_dict[column].append(eval('fake.{func}()'.format(func=column)))
+        try:
+            for column in simple_progress(columns, desc=f'columns'):
+                excel_dict[column] = list()
+                for _ in simple_progress(range(0, rows), desc='rows'):
+                    excel_dict[column].append(eval('fake.{func}()'.format(func=column)))
+        except AttributeError:
+            print("输入列名有误，请检查columns的输入list值")
+            print("详细参考: https://mp.weixin.gq.com/s/xVwEjXu58WovgSi4ZTtVQw")
+            exit(1)
         # 用pandas，将模拟数据，写进excel里面
         res_excel_file = pd.ExcelWriter(str(Path(path).absolute()))
         res_data = pd.DataFrame(excel_dict)
