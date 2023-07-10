@@ -63,11 +63,20 @@ class MainExcel():
         except PermissionError:
             raise Exception(f'小可爱，你的输出文件，是不是上次打开了没关闭呀？这是你自己指定的输出文件名称：{output_file}')
         for file, path in file_path_dict.items():
+            # 将所有excel sheet 全部加进来，然后利用报错结束 InvalidWorksheetName
             if file.endswith("xlsx"):
-                df = pd.read_excel(path)
+                for i in range(0, 100):
+                    try:
+                        df = pd.read_excel(path, sheet_name=i)
+                        df.to_excel(writer, sheet_name=file.split('.')[0] + '_(' + str(i + 1) + ')', index=False)
+                    # index 超出范围 - 结束
+                    except ValueError:
+                        break
+                    except Exception as e:
+                        raise Exception(f"文件名弧过长，请修改。")
             if file.endswith("csv"):
                 df = pd.read_csv(path)
-            df.to_excel(writer, sheet_name=file.split('.')[0], index=False)
+                df.to_excel(writer, sheet_name=file.split('.')[0], index=False)
         print(f'您指定的Excel文件已经合并完毕，合并后的文件名是{output_file}')
         writer.save()
 
