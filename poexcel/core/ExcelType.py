@@ -1,23 +1,24 @@
-import search4file
-import win32com
-from faker import Faker
-import pandas as pd
-
 import os
 from pathlib import Path
-from openpyxl import load_workbook
 
+import pandas as pd
+import search4file
+import win32com
+import xlwings as xw
+from faker import Faker
+from openpyxl import load_workbook
 from pofile import get_files
 from poprogress import simple_progress
 from tqdm import tqdm
-from pathlib import Path
+
 # 忽略waring警告
 from poexcel.lib import pandas_mem
 from poexcel.lib.excel import SplitExcel
-import xlwings as xw
 
 
 class MainExcel():
+    def __init__(self):
+        self.app = "Excel.Application"
 
     def fake2excel(self, columns, rows, path, language):
         """
@@ -64,7 +65,7 @@ class MainExcel():
                 df = pd.read_csv(path)
             df.to_excel(writer, sheet_name=file.split('.')[0], index=False)
         print(f'您指定的Excel文件已经合并完毕，合并后的文件名是{output_file}')
-        writer.save()
+        writer._save()
 
     def getfile(self, dirpath):
         path = Path(dirpath)
@@ -160,7 +161,8 @@ class MainExcel():
                 # Construct path for pdf file
                 pdf_path_name = os.path.join(str(output_pdf_path), Path(excel_file).stem + '.pdf')
                 sheet.to_pdf(path=pdf_path_name, show=False)
-    def count4page(self,input_path):
+
+    def count4page(self, input_path):
         """
         统计Excel文件打印的页数
         :author Cai-cy
@@ -169,7 +171,7 @@ class MainExcel():
         """
         # 指定文件夹路径
         # 打开 Excel 应用程序
-        excel = win32com.client.Dispatch("Excel.Application")
+        excel = win32com.client.Dispatch(self.app)
 
         # 遍历文件夹下的所有文件
         for file_name in os.listdir(input_path):
