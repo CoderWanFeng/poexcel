@@ -15,7 +15,7 @@ class TestExcel(unittest.TestCase):
                     output_path=r'D:\workplace\code\github\poexcel\tests\output_path')
 
     def test_merge2sheet(self):
-        merge2sheet(dir_path=r'./test_files/excel/merge2sheet')
+        merge2sheet(dir_path=r'D:\workplace\code\github\python-office\tests\test_files\excel\merge2sheet')
 
     def test_merge2excel(self):
         merge2excel(dir_path=r'../../contributors/bulabean', output_file='test_merge2excel.xlsx', )

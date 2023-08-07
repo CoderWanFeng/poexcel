@@ -124,9 +124,9 @@ def split_excel_by_column(filepath: str, column: int, worksheet_name: str = None
     """
     视频：
     演示代码：
-    :param filepath:
-    :param column:
-    :param worksheet_name:
+    :param filepath: 必填，Excel文件的位置和名称
+    :param column: 必填，根据第几列拆分
+    :param worksheet_name: 选填，可以指定拆分哪一个sheet，不填则默认第一个
     :return:
     """
     mainExcel.split_excel_by_column(filepath, column, worksheet_name)
