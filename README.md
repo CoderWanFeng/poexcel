@@ -74,6 +74,8 @@ pip install -i https://mirrors.aliyun.com/pypi/simple/ poexcel -U
 
 ## 读者福利
 
+几个没有套路的福利，每天都可以领一次~
+
 <p align="center" id='福利合集-banner'>
     <a target="_blank" href='http://python4office.cn/sideline-pro-list/'>
     <img src="https://python-office-1300615378.cos.ap-chongqing.myqcloud.com/fuli.jpg" width="100%"/>
