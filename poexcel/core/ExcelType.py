@@ -8,6 +8,7 @@ import xlwings as xw
 from faker import Faker
 from openpyxl import load_workbook
 from pofile import get_files
+from pofile import mkdir
 from poprogress import simple_progress
 from tqdm import tqdm
 
@@ -152,6 +153,7 @@ class MainExcel():
         input_excel_path_list2 = get_files(abs_excel_path, suffix='.xlsx')
         input_excel_path_list1.extend(input_excel_path_list2)
         output_pdf_path = Path(pdf_path).absolute()
+        mkdir(output_pdf_path)
         for excel_file in input_excel_path_list1:
             with xw.App() as app:  # 下列来源：https://www.qiniu.com/qfans/qnso-57724345#comments
                 app.visible = False
