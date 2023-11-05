@@ -53,7 +53,7 @@ class MainExcel():
         :return: 没有返回值
         """
         abs_output_path = Path(output_file).absolute()
-        mkdir(abs_output_path.parent)# 创建输出路径
+        mkdir(abs_output_path.parent)  # 创建输出路径
         if not output_file.endswith(xlsxSuffix):
             raise Exception(f'您自定义的输出文件名，不是以{xlsxSuffix}结尾的')
         file_path_dict = self.getfile(dir_path)  # excel文件所在的文件夹
@@ -146,7 +146,7 @@ class MainExcel():
     def split_excel_by_column(self, filepath, column, worksheet_name):
         SplitExcel.split_excel_by_column(filepath, column, worksheet_name)
 
-    def excel2pdf(self, excel_path, pdf_path, sheet_id):
+    def excel2pdf(self, excel_path, pdf_path, include, exclude):
         """
         https://blog.csdn.net/qq_57187936/article/details/125605967
         """
@@ -161,10 +161,11 @@ class MainExcel():
                 app.visible = False
                 # Initialize new excel workbook
                 book = app.books.open(str(excel_file))
-                sheet = book.sheets[sheet_id]
+                # sheet = book.sheets[sheet_id]
                 # Construct path for pdf file
                 pdf_path_name = os.path.join(str(output_pdf_path), Path(excel_file).stem + '.pdf')
-                sheet.to_pdf(path=pdf_path_name, show=False)
+                # sheet.to_pdf(path=pdf_path_name, show=False)
+                book.to_pdf(path=pdf_path_name, show=False, include=include,exclude=exclude)
 
     def count4page(self, input_path):
         """

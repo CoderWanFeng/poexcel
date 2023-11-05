@@ -68,16 +68,17 @@ def find_excel_data(search_key: str, target_dir: str):
     mainExcel.find_excel_data(search_key, target_dir)
 
 
-def excel2pdf(excel_path, pdf_path, sheet_id: int = 0):
+def excel2pdf(excel_path, pdf_path,include: int or str or [int] or [str] or None = None,exclude: int or str or [int] or [str] or None = None):
     """
     视频：https://www.bilibili.com/video/BV1A84y1N7or/
     演示代码：
     :param excel_path:
     :param pdf_path:
-    :param sheet_id:
+    :param include: 要包括的工作表,可以为工作表名(str),工作表索引号(int,从1开始),或由上述两者组成的列表,默认为None,当为None时,不生效.
+    :param exclude: 要排除的工作表,可以为工作表名(str),工作表索引号(int,从1开始),或由上述两者组成的列表,默认为None,当为None时,不生效.
     :return:
     """
-    mainExcel.excel2pdf(excel_path, pdf_path, sheet_id)
+    mainExcel.excel2pdf(excel_path, pdf_path ,include,exclude)
 
 
 def query4excel(query_content, query_path, output_path=None, output_name='output_path/query4excel.xlsx'):
