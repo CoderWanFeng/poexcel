@@ -52,6 +52,8 @@ class MainExcel():
         :param output_file: 输出合并后excel文件的位置
         :return: 没有返回值
         """
+        abs_output_path = Path(output_file).absolute()
+        mkdir(abs_output_path.parent)# 创建输出路径
         if not output_file.endswith(xlsxSuffix):
             raise Exception(f'您自定义的输出文件名，不是以{xlsxSuffix}结尾的')
         file_path_dict = self.getfile(dir_path)  # excel文件所在的文件夹

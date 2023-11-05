@@ -55,7 +55,7 @@ def query4excel(query_content, query_path, output_path, output_name):
                     file_dict = {"文件位置":str(excel)}
                     file_dict.update(sheet.iloc[i].to_dict())
                     current_row_df = pd.DataFrame(file_dict, index=[0])
-                    res_df = res_df.append(current_row_df)
+                    res_df = res_df._append(current_row_df)
                     # print()
     # print(res_df)
     res_df.to_excel(str(abs_output_path),index=False)
