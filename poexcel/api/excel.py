@@ -70,12 +70,13 @@ def find_excel_data(search_key: str, target_dir: str):
 
 def excel2pdf(excel_path, pdf_path, sheet_id: int = 0):
     """
+    将指定的Excel文件的指定工作表转换为PDF文件。
     视频：https://www.bilibili.com/video/BV1A84y1N7or/
-    演示代码：
-    :param excel_path:
-    :param pdf_path:
-    :param sheet_id:
-    :return:
+
+    :param excel_path: str, Excel文件的路径。
+    :param pdf_path: str, 转换后生成的PDF文件的路径。
+    :param sheet_id: int, 工作表的索引，默认为0，表示第一个工作表。
+    :return: None
     """
     mainExcel.excel2pdf(excel_path, pdf_path, sheet_id)
 
@@ -104,6 +105,7 @@ def count4page(input_path):
     """
     mainExcel.count4page(input_path)
 
+
 # @except_dec()
 def merge2sheet(dir_path, output_sheet_name: str = 'Sheet1', output_excel_name: str = 'merge2sheet'):
     """
@@ -116,6 +118,7 @@ def merge2sheet(dir_path, output_sheet_name: str = 'Sheet1', output_excel_name: 
     :return:
     """
     mainExcel.merge2sheet(dir_path, output_sheet_name, output_excel_name)
+
 
 # 按指定列的内容，拆分excel
 # PR内容 & 作者：：https://gitee.com/CoderWanFeng/python-office/pulls/11

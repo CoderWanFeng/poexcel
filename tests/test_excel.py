@@ -29,4 +29,4 @@ class TestExcel(unittest.TestCase):
                     output_path=r'D:\test\py310\excel_test\output_path', output_name='晚枫')
 
     def test_excel2pdf(self):
-        excel2pdf(excel_path=r'./excel_files', pdf_path=r'./output_path')
+        excel2pdf(excel_path=r'./excel_files/fake2excel.xlsx', pdf_path=r'./output_path')
