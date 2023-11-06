@@ -157,7 +157,7 @@ class NewMainExcel(MainExcel):
                     sheet.api.PageSetup.LeftMargin = centimeters2points(Margin[2])  # 左
                     sheet.api.PageSetup.RightMargin = centimeters2points(Margin[3])  # 右
 
-                # 不定长参数
+                # 不定参
                 # 不做处理,只做错误捕捉
                 try:
                     if kwargs:
@@ -219,11 +219,11 @@ if __name__ == '__main__':
     # 缩放调整为80 纸张尺寸为B5(通过可选参数paper_size) 其他不变
     page_setup(excel_files, new_files.format(1), sheet_list=1, Zoom=80, paper_size='b5')
     # 以从工作表名称指定的单个工作表 (第2个)
-    # 缩放调整为70 纸张尺寸为B4(通过不定长参数PaperSize,值采用xw的常量) 页边距修改为 2,2,2,2cm 其他不变
+    # 缩放调整为70 纸张尺寸为B4(通过不定参PaperSize,值采用xw的常量) 页边距修改为 2,2,2,2cm 其他不变
     page_setup(excel_files, new_files.format(2), sheet_list="工作表2", Zoom=70,
                PaperSize=xw.constants.PaperSize.xlPaperB4, Margin=[2, 2, 2, 2])
     # 以从工作表名称和序号混合的方式指定的多个工作表 (第1个和第3个)
-    # 缩放调整为宽度1页 纸张尺寸为B4(通过不定长参数PaperSize,值采用枚举值)  页眉高度修改为4cm 其他不变
+    # 缩放调整为宽度1页 纸张尺寸为B4(通过不定参PaperSize,值采用枚举值)  页眉高度修改为4cm(使用不定参) 其他不变
     page_setup(excel_files, new_files.format(3), sheet_list=["工作表3", 1], FitToPagesWide=1, PaperSize=12,
                HeaderMargin=centimeters2points(4))
     # 以默认值的方式修改所有工作表
