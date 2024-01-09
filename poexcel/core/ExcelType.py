@@ -30,21 +30,24 @@ class MainExcel():
                 path：输出excel的位置，有默认值
         @Ref  : 可以fake的数据类型有：https://mp.weixin.qq.com/s/xVwEjXu58WovgSi4ZTtVQw
         """
-        # 可以选择英语
-        language = 'en_US' if language.lower() == 'english' else 'zh_CN'
-        fake = Faker(language)
-        excel_dict = {}
-        for column in simple_progress(columns, desc=f'columns'):
-            excel_dict[column] = list()
-            for _ in simple_progress(range(0, rows), desc='rows'):
-                excel_dict[column].append(eval('fake.{func}()'.format(func=column)))
-        # 用pandas，将模拟数据，写进excel里面
-        res_excel_file = pd.ExcelWriter(str(Path(path).absolute()))
-        res_data = pd.DataFrame(excel_dict)
-        res_data = pandas_mem.reduce_pandas_mem_usage(res_data)
-        res_data.to_excel(res_excel_file, index=False)
-        # writer.save()
-        res_excel_file.close()
+        if rows == 0:
+            pd.DataFrame().to_excel(str(Path(path).absolute()))
+        else:
+            # 可以选择英语
+            language = 'en_US' if language.lower() == 'english' else 'zh_CN'
+            fake = Faker(language)
+            excel_dict = {}
+            for column in simple_progress(columns, desc=f'columns'):
+                excel_dict[column] = list()
+                for _ in simple_progress(range(0, rows), desc='rows'):
+                    excel_dict[column].append(eval('fake.{func}()'.format(func=column)))
+            # 用pandas，将模拟数据，写进excel里面
+            res_excel_file = pd.ExcelWriter(str(Path(path).absolute()))
+            res_data = pd.DataFrame(excel_dict)
+            res_data = pandas_mem.reduce_pandas_mem_usage(res_data)
+            res_data.to_excel(res_excel_file, index=False)
+            # writer.save()
+            res_excel_file.close()
 
     def merge2excel(self, dir_path, output_file, xlsxSuffix=".xlsx"):
         """
