@@ -2,8 +2,6 @@ import os
 from pathlib import Path
 
 import pandas as pd
-import search4file
-import win32com
 import xlwings as xw
 from faker import Faker
 from openpyxl import load_workbook
@@ -144,7 +142,7 @@ class MainExcel():
             search_key：检索的关键词
             target_dir：目标文件夹
         """
-        search4file.find_excel_data(search_key, target_dir)
+        print('该方法已过期，请调用：search4file.find_excel_data(search_key, target_dir)')
 
     def split_excel_by_column(self, filepath, column, worksheet_name):
         SplitExcel.split_excel_by_column(filepath, column, worksheet_name)
@@ -176,23 +174,24 @@ class MainExcel():
         :param input_path:
         :return:
         """
-        # 指定文件夹路径
-        # 打开 Excel 应用程序
-        excel = win32com.client.Dispatch(self.app)
-
-        # 遍历文件夹下的所有文件
-        for file_name in os.listdir(input_path):
-            # 判断文件是否是 Excel 文件
-            if file_name.endswith(".xlsx") or file_name.endswith(".xls"):
-                # 打开 Excel 文件
-                file_path = os.path.join(input_path, file_name)
-                workbook = excel.Workbooks.Open(file_path)
-                # 获取 Excel 文件的打印页数
-                page_count = workbook.ActiveSheet.PageSetup.Pages.Count
-                # 输出 Excel 文件的打印页数
-                print(f"{file_name}: {page_count}页")
-                # 关闭 Excel 文件
-                workbook.Close()
-
-        # 关闭 Excel 应用程序
-        excel.Quit()
+        # # 指定文件夹路径
+        # # 打开 Excel 应用程序
+        # excel = win32com.client.Dispatch(self.app)
+        #
+        # # 遍历文件夹下的所有文件
+        # for file_name in os.listdir(input_path):
+        #     # 判断文件是否是 Excel 文件
+        #     if file_name.endswith(".xlsx") or file_name.endswith(".xls"):
+        #         # 打开 Excel 文件
+        #         file_path = os.path.join(input_path, file_name)
+        #         workbook = excel.Workbooks.Open(file_path)
+        #         # 获取 Excel 文件的打印页数
+        #         page_count = workbook.ActiveSheet.PageSetup.Pages.Count
+        #         # 输出 Excel 文件的打印页数
+        #         print(f"{file_name}: {page_count}页")
+        #         # 关闭 Excel 文件
+        #         workbook.Close()
+        #
+        # # 关闭 Excel 应用程序
+        # excel.Quit()
+        pass

@@ -9,3 +9,6 @@
 import poexcel
 
 poexcel.fake2excel(rows=0, path='./test/test.xlsx')
+import office
+
+office.excel.fake2excel(rows=0, path='./test/test.xlsx')
