@@ -114,26 +114,56 @@ class MainExcel():
         else:
             raise Exception(f"你的文件只有一个sheet，难道还要拆分吗？我做不到啊~~~，你的文件名{file_path}")
 
-    def merge2sheet(self, dir_path, output_sheet_name: str, output_excel_name):
-        # 多个excel文件，合并到一个sheet里面
+    def merge2sheet(self, dir_path, output_excel_name, output_sheet_name: str = None):
+        """
+        将指定目录下的多个文件合并到一个Excel表格中。
+
+        参数：
+        dir_path (str): 指定目录的路径。
+        output_excel_name (str): 输出的Excel文件名。
+        output_sheet_name (str, optional): 输出的Excel表格名，默认为None。
+
+        返回：
+        None
+        """
+
+        def merge_excel_by_sheet(path, file_list, sheet_name):
+            """
+            :param file_path: excel文件的路径
+            :param output_path: 输出excel文件的路径
+            :return:
+            """
+            # 读取excel文件
+            df_list = []
+            for excel_path in file_list:  # 依次取出Excel文件
+                if excel_path.endswith("xlsx") or excel_path.endswith("xls"):
+                    excel_path = Path(path) / excel_path
+                    df_list.append(pd.read_excel(excel_path, sheet_name=sheet_name))
+            res = pd.concat(df_list)
+            return res
+
         for root, dirs, files in os.walk(dir_path):
             path = Path(dir_path)
-            print(f'正在合并的文件有：{files}')
-            print(f'合并后的文件名是：{output_excel_name}')
-            print(f'合并后的sheet名是：{output_sheet_name}')
+            output_excel_path = Path(output_excel_name).parent.absolute()
+            mkdir(output_excel_path)
+            writer = pd.ExcelWriter(output_excel_name + '.xlsx', mode='w', engine='openpyxl')
             df_list = []
-            for file in files:
+            sheet_merge_dic = {}
+            for file in files:  # 依次取出Excel文件
                 if file.endswith("xlsx") or file.endswith("xls"):
                     excel_path = (path / file)
-                    df_list.append(pd.read_excel(excel_path))
-            res = pd.concat(df_list)
-            res.to_excel(
-                (path / (output_excel_name + '.xlsx')),
-                sheet_name=output_sheet_name,
-                index=False  # 不保留index
-            )
+                    if output_sheet_name != None:
+                        sheet_merge_dic[output_sheet_name] = merge_excel_by_sheet(path, files, output_sheet_name)
+                    else:
+                        for sheet_name in pd.ExcelFile(excel_path).sheet_names:
+                            sheet_merge_dic[sheet_name] = merge_excel_by_sheet(path, files, sheet_name)
+                    break
+            for sheet_name, df in sheet_merge_dic.items():
+                print(sheet_name)
+                df.to_excel(writer, sheet_name=sheet_name, index=False)
 
-            pass
+            writer._save()
+            writer.close()
 
     def find_excel_data(self, search_key, target_dir):
         """
@@ -148,23 +178,32 @@ class MainExcel():
         SplitExcel.split_excel_by_column(filepath, column, worksheet_name)
 
     def excel2pdf(self, excel_path, pdf_path, sheet_id):
-        """
-        https://blog.csdn.net/qq_57187936/article/details/125605967
-        """
+        # 获取绝对路径
         abs_excel_path = str(Path(excel_path).absolute())
+        # 获取指定后缀的Excel文件列表（.xls）
         input_excel_path_list1 = get_files(abs_excel_path, suffix='.xls')
+        # 获取指定后缀的Excel文件列表（.xlsx）
         input_excel_path_list2 = get_files(abs_excel_path, suffix='.xlsx')
+        # 将两个列表合并
         input_excel_path_list1.extend(input_excel_path_list2)
+        # 获取PDF文件的绝对路径
         output_pdf_path = Path(pdf_path).absolute()
+        # 创建PDF文件的输出目录
         mkdir(output_pdf_path)
+        # 遍历Excel文件列表
         for excel_file in input_excel_path_list1:
             with xw.App() as app:  # 下列来源：https://www.qiniu.com/qfans/qnso-57724345#comments
+                # 设置Excel应用程序不可见
                 app.visible = False
+                # 初始化新的Excel工作簿
                 # Initialize new excel workbook
                 book = app.books.open(str(excel_file))
+                # 获取指定sheet_id的工作表
                 sheet = book.sheets[sheet_id]
+                # 构造PDF文件的路径
                 # Construct path for pdf file
                 pdf_path_name = os.path.join(str(output_pdf_path), Path(excel_file).stem + '.pdf')
+                # 将工作表保存为PDF文件
                 sheet.to_pdf(path=pdf_path_name, show=False)
 
     def count4page(self, input_path):

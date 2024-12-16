@@ -1,4 +1,5 @@
 import unittest
+
 from poexcel.api.excel import *
 
 
@@ -11,11 +12,11 @@ class TestExcel(unittest.TestCase):
                               column=6)
 
     def test_sheet2excel(self):
-        sheet2excel(file_path=r'/tests/excel_files/fake2excel.xlsx',
+        sheet2excel(file_path=r'./excel_files/',
                     output_path=r'D:\workplace\code\github\poexcel\tests\output_path')
 
     def test_merge2sheet(self):
-        merge2sheet(dir_path=r'D:\workplace\code\github\python-office\tests\test_files\excel\merge2sheet')
+        merge2sheet(dir_path=r'./excel_files/')
 
     def test_merge2excel(self):
         merge2excel(dir_path=r'../../contributors/bulabean', output_file='test_merge2excel.xlsx', )
@@ -29,4 +30,5 @@ class TestExcel(unittest.TestCase):
                     output_path=r'D:\test\py310\excel_test\output_path', output_name='晚枫')
 
     def test_excel2pdf(self):
-        excel2pdf(excel_path=r'./excel_files/fake2excel.xlsx', pdf_path=r'./output_path')
+        excel2pdf(excel_path=r'./excel_files/fake2excel.xlsx', pdf_path=r'./output_path', sheet_id=1)
+

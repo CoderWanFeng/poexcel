@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 '''
-@学习网站      ：www.python-office.com
+@学习网站      ：https://www.python-office.com
 @读者群     ：http://www.python4office.cn/wechat-group/
 @作者  ：B站/抖音/微博/小红书/公众号，都叫：程序员晚枫，微信：CoderWanFeng
 @代码日期    ：2024/1/9 22:56
@@ -38,7 +38,8 @@ def fake2excel(columns=['name'], rows=1, path='./fake2excel.xlsx', language='zh_
 # @except_dec()
 def merge2excel(dir_path, output_file='merge2excel.xlsx'):
     """
-    视频：https://www.bilibili.com/video/BV1714y147Ao/
+    视频：https://www.bilibili.com/video/BV1Th4y1Y7kd/
+    功能：把多个Excel，汇总到1个Excel的不同sheet里面
     演示代码：
     :param dir_path:
     :param output_file:
@@ -78,7 +79,7 @@ def find_excel_data(search_key: str, target_dir: str):
 def excel2pdf(excel_path, pdf_path, sheet_id: int = 0):
     """
     将指定的Excel文件的指定工作表转换为PDF文件。
-    视频：https://www.bilibili.com/video/BV1A84y1N7or/
+    视频：https://www.bilibili.com/video/BV1Nh4y1K7KG
 
     :param excel_path: str, Excel文件的路径。
     :param pdf_path: str, 转换后生成的PDF文件的路径。
@@ -114,7 +115,7 @@ def count4page(input_path):
 
 
 # @except_dec()
-def merge2sheet(dir_path, output_sheet_name: str = 'Sheet1', output_excel_name: str = 'merge2sheet'):
+def merge2sheet(dir_path, output_sheet_name: str = None, output_excel_name: str = 'merge2sheet'):
     """
     视频：
     演示代码：
@@ -124,19 +125,19 @@ def merge2sheet(dir_path, output_sheet_name: str = 'Sheet1', output_excel_name: 
     :param output_excel_name:
     :return:
     """
-    mainExcel.merge2sheet(dir_path, output_sheet_name, output_excel_name)
+    mainExcel.merge2sheet(dir_path=dir_path, output_excel_name=output_excel_name, output_sheet_name=output_sheet_name)
 
+    # 按指定列的内容，拆分excel
+    # PR内容 & 作者：：https://gitee.com/CoderWanFeng/python-office/pulls/11
+    # @except_dec()
+    def split_excel_by_column(filepath: str, column: int, worksheet_name: str = None):
+        """
+        视频：
+        演示代码：
+        :param filepath: 必填，Excel文件的位置和名称
+        :param column: 必填，根据第几列拆分
+        :param worksheet_name: 选填，可以指定拆分哪一个sheet，不填则默认第一个
+        :return:
+        """
+        mainExcel.split_excel_by_column(filepath, column, worksheet_name)
 
-# 按指定列的内容，拆分excel
-# PR内容 & 作者：：https://gitee.com/CoderWanFeng/python-office/pulls/11
-# @except_dec()
-def split_excel_by_column(filepath: str, column: int, worksheet_name: str = None):
-    """
-    视频：
-    演示代码：
-    :param filepath: 必填，Excel文件的位置和名称
-    :param column: 必填，根据第几列拆分
-    :param worksheet_name: 选填，可以指定拆分哪一个sheet，不填则默认第一个
-    :return:
-    """
-    mainExcel.split_excel_by_column(filepath, column, worksheet_name)
